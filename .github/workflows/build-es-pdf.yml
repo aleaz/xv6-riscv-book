@@ -37,8 +37,7 @@ jobs:
             texlive-latex-extra \
             texlive-fonts-recommended \
             texlive-science \
-            latexmk \
-            bibtex
+            latexmk
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
