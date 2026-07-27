@@ -37,7 +37,7 @@ jobs:
             texlive-latex-extra \
             texlive-fonts-recommended \
             texlive-science \
-            texlive-humanities \
+            texlive-plain-generic \
             latexmk
 
       - name: Install uv
