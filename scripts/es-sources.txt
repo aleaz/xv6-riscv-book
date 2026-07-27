@@ -1,0 +1,27 @@
+# Spanish edition source list (SSOT for sync + build).
+# One .tex path per line. Lines starting with # are ignored.
+#
+# When upstream adds/removes a chapter in book.tex (\input{latex.out/...}),
+# update this file in the same change.
+#
+# Root book + chapters (order matches book.tex \input{latex.out/...}):
+book.tex
+acks.tex
+unix.tex
+first.tex
+mem.tex
+trap.tex
+pgfault.tex
+interrupt.tex
+lock.tex
+sched.tex
+sleep.tex
+fs.tex
+lock2.tex
+sum.tex
+# Figures: synced into TM (fig__*), not built into the PDF yet — staging
+# still symlinks the English fig/ tree. Keep listed so prose appears after sync.
+fig/order.tex
+fig/sleep.tex
+fig/switch.tex
+fig/trap.tex

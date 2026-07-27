@@ -1,0 +1,206 @@
+project:
+  source_lang: English
+  target_lang: Spanish
+  domain_context_max_tokens: 1024
+  domain_context: |
+    This document is a university-level textbook about the design and
+    implementation of the xv6 operating system for the RISC-V architecture.
+    
+    The intended audience consists of undergraduate and graduate computer
+    science students studying operating systems.
+    
+    Translate using standard technical terminology commonly used in
+    Spanish-language computer science literature.
+    
+    Preserve technical precision, educational clarity, and terminology
+    consistency across the entire document.
+    
+    Do not simplify technical concepts.
+    
+    Preserve established English terms when they are the accepted form in
+    operating systems literature (for example: kernel, spinlock, RISC-V, xv6).
+    
+    Never translate or modify:
+    
+    - LaTeX commands
+    - code listings
+    - mathematical expressions
+    - identifiers
+    - C symbols
+    - assembly mnemonics
+    - filenames
+    - labels
+    - references
+    - citations
+    
+    Translate only natural language intended for the reader.
+    
+    TERMINOLOGY (EN → preferred Spanish; pick one form and reuse; do not invent synonyms):
+    - page fault / page-fault → fallo de página (NEVER "falta de página")
+    - page table / PTE → tabla de páginas / PTE
+    - trap → trap (never "trampa")
+    - exception → excepción; interrupt → interrupción
+    - system call → llamada al sistema (API and code names stay English)
+    - user space / kernel space → espacio de usuario / espacio del kernel
+    - process / thread → proceso / hilo; context switch → cambio de contexto
+    - scheduler → scheduler (prefer English over "planificador")
+    - lock / locking → lock / bloqueo (never "candado"); spinlock / sleep-lock → keep English
+    - deadlock → interbloqueo (deadlock); race condition → condición de carrera
+    - pipe → pipe (at most one gloss as "tubería (pipe)")
+    - file descriptor → descriptor de archivo; inode / shell → inode / shell
+    - sleep / wakeup / lost wake-up → keep English (optional one-time gloss)
+    - interrupt handler, top half, bottom half, copy-on-write (COW), buffer cache → keep English
+    
+    FORBIDDEN calques: "falta de página(s)" for page fault; "trampa" for trap; "candado" for lock.
+
+llm:
+  provider: openai
+  model: local-model
+  base_url: http://localhost:1234/v1
+  max_tokens: 8192
+  model_context_limit: 16384
+  cost_profile: balanced
+tm:
+  durability: strict
+review:
+  queue_statuses:
+  - refined
+  - reviewed
+parser:
+  inline_transparent_macros:
+    - indextext
+    - indextextx
+  custom_macros:
+  - name: lineref
+    args: 2
+    translatable: false
+  - name: and
+    args: 0
+    translatable: false
+  - name: tableofcontents
+    args: 0
+    translatable: false
+  - name: footnotesize
+    args: 0
+    translatable: false
+  - name: printindex
+    args: 0
+    translatable: false
+  - name: showfileref
+    args: 2
+    translatable: false
+  - name: ttfamily
+    args: 0
+    translatable: false
+  - name: tikzset
+    args: 1
+    translatable: false
+  - name: draw
+    args: 0
+    translatable: false
+  - name: node
+    args: 0
+    translatable: false
+  - name: fileref
+    args: 1
+    translatable: false
+  - name: centering
+    args: 0
+    translatable: false
+  - name: frenchspacing
+    args: 0
+    translatable: false
+  - name: rtm
+    args: 1
+    translatable: false
+  - name: insertnote
+    args: 2
+    translatable: false
+  - name: indexcode
+    args: 1
+    translatable: false
+  - name: caption
+    args: 1
+    translatable: false
+  - name: center
+    args: 0
+    translatable: false
+  - name: indextextx
+    args: 1
+    translatable: false
+  - name: mfk
+    args: 1
+    translatable: false
+  - name: bibliographystyle
+    args: 1
+    translatable: false
+  - name: note
+    args: 1
+    translatable: false
+  - name: indextext
+    args: 1
+    translatable: false
+  - name: times
+    args: 0
+    translatable: false
+  - name: midrule
+    args: 0
+    translatable: false
+  - name: noindent
+    args: 0
+    translatable: false
+  - name: linerefs
+    args: 2
+    translatable: false
+  - name: hl
+    args: 1
+    translatable: false
+  - name: github
+    args: 0
+    translatable: false
+  - name: makeindex
+    args: 0
+    translatable: false
+  - name: lstinline
+    args: 1
+    translatable: false
+  - name: showlineref
+    args: 2
+    translatable: false
+  - name: newpage
+    args: 0
+    translatable: false
+  - name: interlinepenalty
+    args: 0
+    translatable: false
+  - name: maketitle
+    args: 0
+    translatable: false
+  - name: small
+    args: 1
+    translatable: false
+  - name: index
+    args: 1
+    translatable: false
+  - name: showlinerefs
+    args: 2
+    translatable: false
+  - name: lstset
+    args: 1
+    translatable: false
+  - name: href
+    args: 2
+    translatable: false
+  block_transparent_macros:
+  - section
+  - namespace
+  - subsection
+  - subsubsection
+  - paragraph
+  - title
+  - author
+  - date
+  - thanks
+  - item
+  - part
+  - abstract

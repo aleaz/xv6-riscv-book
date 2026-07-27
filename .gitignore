@@ -4,6 +4,8 @@
 latex.out/
 xv6-riscv-src
 xv6-riscv-src-booklet/fmt
+# Regenerable Spanish build outputs (TM is under .lilt/tm/)
+i18n/
 *.aux
 *.idx
 *.ilg

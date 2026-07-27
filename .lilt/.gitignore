@@ -1,0 +1,6 @@
+# Keep Translation Memory in git (JSONL is the localization SSOT).
+# Secrets and local runtime noise stay ignored.
+*.db
+*.db-journal
+.env
+lilt.log

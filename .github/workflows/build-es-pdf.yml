@@ -1,0 +1,83 @@
+# Build Spanish book PDF from committed LILT TM (no LLM).
+name: Build ES PDF
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [es]
+    tags: ["es-*"]
+    # Path filters apply to branch pushes only; tag pushes always run.
+    paths:
+      - ".lilt/tm/**"
+      - ".lilt/lilt.yaml"
+      - "scripts/build-es.sh"
+      - "scripts/es-sources.txt"
+      - "scripts/sync-es.sh"
+      - ".github/workflows/build-es-pdf.yml"
+
+concurrency:
+  group: build-es-pdf-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout book
+        uses: actions/checkout@v4
+
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            texlive-latex-base \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-science \
+            latexmk \
+            bibtex
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Checkout LILT
+        uses: actions/checkout@v4
+        with:
+          repository: aleaz/lilt
+          path: .ci/lilt
+          # Pin: bump only after local ./scripts/build-es.sh succeeds with this ref.
+          ref: v1.0.0-rc.2
+
+      - name: Install LILT
+        working-directory: .ci/lilt
+        run: |
+          uv sync --frozen || uv sync
+          uv run lilt --help
+
+      - name: Build Spanish PDF
+        env:
+          LILT_CMD: uv run --directory ${{ github.workspace }}/.ci/lilt lilt
+        run: |
+          chmod +x scripts/build-es.sh scripts/sync-es.sh
+          ./scripts/build-es.sh
+
+      - name: Upload book-es.pdf
+        uses: actions/upload-artifact@v4
+        with:
+          name: book-es-pdf
+          path: i18n/book-es.pdf
+          if-no-files-found: error
+
+      - name: Release on tag
+        if: startsWith(github.ref, 'refs/tags/es-')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: i18n/book-es.pdf
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
