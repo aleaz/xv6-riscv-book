@@ -97,13 +97,22 @@ for rel in "${SOURCES[@]}"; do
 done
 
 # --- 2. xv6 source + booklet fmt (for lineref) ---
+# Full booklet PDF needs mpage/ps2pdf; we only need numbered fmt/ for lineref.
 if [[ ! -d "$SRC_DIR" ]]; then
   log "clone mit-pdos/xv6-riscv → xv6-riscv-src"
   git clone --depth 1 https://github.com/mit-pdos/xv6-riscv.git "$SRC_DIR"
 fi
-if [[ ! -d "$BOOKLET_FMT" ]]; then
-  log "build xv6-riscv-src-booklet/fmt"
-  make -C "$ROOT/xv6-riscv-src-booklet"
+if [[ ! -d "$BOOKLET_FMT/kernel" ]]; then
+  log "generate xv6-riscv-src-booklet/fmt for lineref"
+  (
+    cd "$ROOT/xv6-riscv-src-booklet"
+    # runoff builds fmt/ then may fail on mpage/ps2pdf — OK if fmt exists.
+    ./runoff || true
+  )
+  if [[ ! -d "$BOOKLET_FMT/kernel" ]]; then
+    echo "error: booklet fmt/ was not created (runoff failed early)" >&2
+    exit 1
+  fi
 fi
 
 # --- 3. lineref on root chapters only (not book.tex, not fig/*) ---
